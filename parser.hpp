@@ -1,9 +1,6 @@
 /******************************************************************************************
 Project: UCSD CSE291C Course Project: Web Server for TritonHTTP
 
-Author:
-1. Hou Wang
-
 Parser.hpp: header file
 Verify the header format and parse the request into valid request data structure
 *******************************************************************************************/

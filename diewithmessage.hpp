@@ -1,9 +1,6 @@
 /******************************************************************************************
 Project: UCSD CSE291C Course Project: Web Server for TritonHTTP
 
-Author:
-1. Hou Wang
-
 diewithmessage.hpp:
 System util:
 end server if critical error is detected

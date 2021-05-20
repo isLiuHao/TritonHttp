@@ -1,9 +1,6 @@
 /******************************************************************************************
 Project: UCSD CSE291C Course Project: Web Server for TritonHTTP
 
-Author:
-1. Hou Wang
-
 responder.cpp
 Use data flow model, responder handle file checks, permission verification and response message formatting
 

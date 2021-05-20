@@ -1,9 +1,6 @@
 /******************************************************************************************
 Project: UCSD CSE291C Course Project: Web Server for TritonHTTP
 
-Author:
-1. Hou Wang
-
 handTCPClient: header file
 This module handles incoming connection, and message parsing and framing.
 Handle error in data format level.
