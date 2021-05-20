@@ -32,7 +32,7 @@ void *HandleTCPClient(void *args){
   		      DiewithMessage_t("accept() failed");
           }
 
-          /* set socket receive timeout */
+          //设置套接字接收超时
           struct timeval timeOutVal;
           timeOutVal.tv_sec = 5;
           timeOutVal.tv_usec = 0;
@@ -40,11 +40,11 @@ void *HandleTCPClient(void *args){
               cerr << strerror(errno) << '\n';
               DiewithMessage("Called setsockopt(): socket option set failed"); /*socket creation failed*/
           }
-
+          //inet_ntoa()将二进制地址转化为172.18.56.32形式
           string addr(inet_ntoa(echoClntAddr.sin_addr));
           cerr << "Handling client " + addr << '\n';
 
-          /* Start Request Handling Process */
+          //开始请求处理过程
           HandleReq(clntSock, doc_root);
     }
 }
