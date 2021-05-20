@@ -20,34 +20,32 @@ void *HandleTCPClient(void *args){
       ThreadArgs *arg = static_cast<ThreadArgs *>(args);
       int servSock = arg->servSocket;
       string doc_root = arg->doc_root;
-      unsigned int clntLen; /*Length of client address*/
-      int clntSock; /*set client socket fd*/
-      sockaddr_in echoClntAddr; /*Client IP address*/
+      unsigned int clntLen;         //客户端地址的长度
+      int clntSock;                 //客户端套接字
+      sockaddr_in echoClntAddr;     //客户端IP地址
 
       while(true){
-  		/* Set the size of the in-out parameter */
-  		clntLen = sizeof(echoClntAddr);
+          clntLen = sizeof(echoClntAddr);
+          cerr << "waiting for accept....." << '\n';
+          //accept()函数 接受连接
+  		  if ((clntSock = accept(servSock, (sockaddr *) &echoClntAddr, &clntLen)) < 0){
+  		      DiewithMessage_t("accept() failed");
+          }
 
-      /* clntSock is connected to a client! */
-      cerr << "read for accept" << '\n';
-  		if ((clntSock = accept(servSock, (sockaddr *) &echoClntAddr, &clntLen)) < 0){
-  			DiewithMessage_t("accept() failed");
-      }
+          /* set socket receive timeout */
+          struct timeval timeOutVal;
+          timeOutVal.tv_sec = 5;
+          timeOutVal.tv_usec = 0;
+          if(setsockopt(clntSock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOutVal, sizeof(timeOutVal)) < 0){
+              cerr << strerror(errno) << '\n';
+              DiewithMessage("Called setsockopt(): socket option set failed"); /*socket creation failed*/
+          }
 
-      /* set socket receive timeout */
-      struct timeval timeOutVal;
-      timeOutVal.tv_sec = 5;
-      timeOutVal.tv_usec = 0;
-      if(setsockopt(clntSock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOutVal, sizeof(timeOutVal)) < 0){
-                cerr << strerror(errno) << '\n';
-        DiewithMessage("Called setsockopt(): socket option set failed"); /*socket creation failed*/
-      }
+          string addr(inet_ntoa(echoClntAddr.sin_addr));
+          cerr << "Handling client " + addr << '\n';
 
-      string addr(inet_ntoa(echoClntAddr.sin_addr));
-  		cerr << "Handling client " + addr << '\n';
-
-      /* Start Request Handling Process */
-  		HandleReq(clntSock, doc_root);
+          /* Start Request Handling Process */
+          HandleReq(clntSock, doc_root);
     }
 }
 

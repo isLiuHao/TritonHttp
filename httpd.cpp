@@ -62,21 +62,21 @@ void start_httpd(unsigned short port, string doc_root)
 	args->servSocket = servSocket;
 	args->doc_root = doc_root;
 	for(unsigned i = 0; i < POOL_SIZE; i++){
-	    //创建线程
+	    //创建线程 从HandleTCPClient函数运行
 		if(pthread_create(&pid[i], NULL, &HandleTCPClient, args) < 0){
 			DiewithMessage("Called pthread_create(): threads creation failed");
 		}
-		cerr << "Thread " << pid[i] << "is spawned \n";
+		cerr << "Thread" << i <<":"<< pid[i] << "is spawned \n";
 	}
 
 	cerr << "Starting server (port: " << port <<
 		", doc_root: " << doc_root << ")" << endl;
 
 	for(unsigned i = 0; i < POOL_SIZE; i++){
-		/*Block main process until threads join*/
+		//阻塞主进程，直到线程加入
 		if(pthread_join(pid[i], NULL) < 0){
 			DiewithMessage("Called pthread_join(): threads join failed");
 		}
 	}
-	/*Not reachable*/
+
 }
