@@ -10,9 +10,9 @@ using namespace std;
 /***************************
 	Public Methods
 *******************************/
+
 void Framer::append(string chars)
 {
-	// PUT YOUR CODE HERE
 	for(unsigned i = 0; i < chars.length(); i++){
 		_msgBuffer.push_back(chars[i]);
 	}
@@ -21,7 +21,6 @@ void Framer::append(string chars)
 
 bool Framer::hasMessage() const
 {
-	// PUT YOUR CODE HERE
 	if(_msgBuffer.size() == 0){
 		return false;
 	}
@@ -40,7 +39,6 @@ bool Framer::hasMessage() const
 
 string Framer::topMessage() const
 {
-	// PUT YOUR CODE HERE
 	string msg;
 	for(auto be = _msgBuffer.begin(), en = _msgBuffer.end(); be != en; ++be){
 		char cur = *be;
@@ -50,7 +48,6 @@ string Framer::topMessage() const
 					break;
 				}
 			}
-
 			if(cur != Framer::CR && cur != Framer::LF){
 					msg += cur;
 			}
@@ -61,7 +58,6 @@ string Framer::topMessage() const
 
 void Framer::popMessage()
 {
-	// PUT YOUR CODE HERE
 	for(auto be = _msgBuffer.begin(), en = _msgBuffer.end(); be != en; ++be){
 		char cur = *be;
 		if(cur == Framer::CR && be != en){

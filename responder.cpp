@@ -27,7 +27,7 @@ vector<string> Responder::parseHelper(string insstr, char del){
 			res.push_back(insstr.substr(begin, end - begin));
 			begin = end + 1;
 		}
-			end++;
+		end++;
 	}
 
 	if(begin != end){
@@ -37,35 +37,35 @@ vector<string> Responder::parseHelper(string insstr, char del){
 }
 
 int Responder::checkFile(string path){
-	char *root = &(this->doc_root[0]);
+    char *root = &(this->doc_root[0]);
 	string absolutePath(root);
 
 	absolutePath.append(path);
 
-  char resolved_t[1024];
-  realpath(&absolutePath[0], resolved_t);
-  string resolvedPath(resolved_t);
-	char *filePath = &resolvedPath[0];
+    char resolved_t[1024];
+    realpath(&absolutePath[0], resolved_t);
+    string resolvedPath(resolved_t);
+    char *filePath = &resolvedPath[0];
 
-  size_t pos = resolvedPath.find(root);
-  if(pos == string::npos){
-    return NOT_FOUND;
-  }
+    size_t pos = resolvedPath.find(root);
+    if(pos == string::npos){
+      return NOT_FOUND;
+    }
 
 	int filed = access(filePath, F_OK);
 
-  if(filed < 0){
-		if(errno == ENOENT || errno == ENOTDIR){
-			return NOT_FOUND;
-		}
-	}
+    if(filed < 0){
+          if(errno == ENOENT || errno == ENOTDIR){
+              return NOT_FOUND;
+          }
+    }
 
-		struct stat f_stat;
-		stat(filePath, &f_stat);
-		if(!(f_stat.st_mode & S_IROTH)){
-			std::cout << "Forbidden" <<std::endl;
-			return FORBIDDEN;
-		}
+	struct stat f_stat;
+	stat(filePath, &f_stat);
+	if(!(f_stat.st_mode & S_IROTH)){
+		std::cout << "Forbidden" <<std::endl;
+		return FORBIDDEN;
+	}
 
 	this->fd = open(filePath, O_RDONLY);
 	return 0;
@@ -207,37 +207,37 @@ void Responder::appendServ(string serv){
 }
 
 void Responder::response(int statCode){
-  off_t offset = 0;
+    off_t offset = 0;
 	int sent = 0;
 	struct stat f_stat;
 
-  // add HTTP response initial line
-  appendInitLine(statCode);
+    // add HTTP response initial line
+    appendInitLine(statCode);
 
-  /* Append Last modified*/
-  // cerr << "Last modified: " << fileStat.st_mtime <<'\n';
-  appendLastModified();
+    /* Append Last modified*/
+    // cerr << "Last modified: " << fileStat.st_mtime <<'\n';
+    appendLastModified();
 
-  /* Append Content-Type*/
-  appendContentType();
+    /* Append Content-Type*/
+    appendContentType();
 
-  /* Append Content-Length*/
-  appendContentLength();
+    /* Append Content-Length*/
+    appendContentLength();
 
-  /* Append Server Name*/
-  appendServ(SERVER_VER_NAME);
+    /* Append Server Name*/
+    appendServ(SERVER_VER_NAME);
 
-	this->sendQ += DELIMITER;
-	char *header = &(this->sendQ[0]);
-  if(send(clntSock, (void *)header, this->sendQ.size(), 0) < 0){
-		cerr << strerror(errno) << '\n';
-	}
+    this->sendQ += DELIMITER;
+    char *header = &(this->sendQ[0]);
+    if(send(clntSock, (void *)header, this->sendQ.size(), 0) < 0){
+          cerr << strerror(errno) << '\n';
+    }
 
-  /* Send File as body, until EOF */
-	fstat(this->fd, &f_stat);
-  while((sent = sendfile(clntSock, this->fd, &offset, f_stat.st_size)) > 0){
-		cerr << sent << '\n';
-	}
+    /* Send File as body, until EOF */
+    fstat(this->fd, &f_stat);
+    while((sent = sendfile(clntSock, this->fd, &offset, f_stat.st_size)) > 0){
+          cerr << sent << '\n';
+    }
 }
 
 /************************************
@@ -262,7 +262,7 @@ void Responder::sendResponse(int status){
       if((this->fd = openat(AT_FDCWD, &FORBIDDEN_PATH[0], O_RDONLY)) < 0){
         cerr << strerror(errno) << '\n';
       }
-			this->type = TEXT;
+      this->type = TEXT;
       response(status);
     break;
 
@@ -270,7 +270,7 @@ void Responder::sendResponse(int status){
       if((this->fd = openat(AT_FDCWD, &NOT_FOUND_PATH[0], O_RDONLY)) < 0){
         cerr << strerror(errno) << '\n';
       }
-			this->type = TEXT;
+      this->type = TEXT;
       response(status);
     break;
 
@@ -278,12 +278,12 @@ void Responder::sendResponse(int status){
       if((this->fd = openat(AT_FDCWD, &CLIENT_ERROR_PATH[0], O_RDONLY)) < 0){
         cerr << strerror(errno) << '\n';
       }
-			this->type = TEXT;
+      this->type = TEXT;
       response(status);
   }
 
-	close(this->fd);
-	this->fd = -1;
-	sendQ = "";
+  close(this->fd);
+  this->fd = -1;
+  sendQ = "";
   return;
 }

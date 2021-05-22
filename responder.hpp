@@ -30,15 +30,19 @@ P3: response with ERROR, response, response with body
 using namespace std;
 
 const string ERRORPAGE = "./errorPage";
+
 const int FORBIDDEN = 403;
 const string FORBIDDEN_DES = "Forbidden";
 const string FORBIDDEN_PATH = ERRORPAGE + "/Forbidden.html";
+
 const int NOT_FOUND = 404;
 const string NOT_FOUND_DES = "Not Found";
 const string NOT_FOUND_PATH = ERRORPAGE + "/NotFound.html";
+
 const int CLIENT_ERROR = 400;
 const string CLIENT_ERROR_DES = "Bad Request";
 const string CLIENT_ERROR_PATH = ERRORPAGE + "/ClientError.html";
+
 const int OK = 200;
 const string OK_DES = "OK";
 const string DELIMITER = "\r\n\0";
@@ -71,27 +75,20 @@ class Responder {
       send out file described by fd, in statCode
     */
     void response(int statCode);
-    /*
-      verify request header and generate status code
-    */
+
+    //验证请求头并生成状态代码
     int verifyReq(HttpInstruction req);
 
     /*
-      check file permission, existence
-      if not problem set this->fd to the file
+      检查文件权限，是否存在
+      如果没有问题，请将this->fd指向文件
     */
     int checkFile(string path);
 
-    /*
-      check and set file type.
-      If required file is not supported, error status code returns
-      otherwise return 0
-    */
+    //设置文件类型
     int setFileType(string path);
 
-    /*
-      Helpers for Appending headers
-    */
+    //添加请求头
     void appendInitLine(int statCode);
     void appendContentType();
     void appendContentLength();
@@ -99,27 +96,19 @@ class Responder {
     void appendServ(string serv);
 
   public:
-  	/*
-  		Constructor, initialize private fields
-      Initialized with client socket
-  	*/
+  	//初始化
   	Responder(int client, string root){
         clntSock = client;
         doc_root = root;
         this->sendQ = "";
     };
 
-    /*
-      verify if request is valid.
-      Return verified status code, can be passed to sendResponse
-    */
+    //验证请求是否有效并返回状态码
     int verifyandAppendReq(HttpInstruction req);
 
     /*
-      send response based on verified req,
-      if status code is error (2xx), then no request is needed to be apend
-      return true if response is sent
-      else false if response not sent
+      根据已验证的要求发送响应，
+      如果状态码为错误（2xx），则无需请求
     */
     void sendResponse(int statCode);
 

@@ -11,7 +11,7 @@ using namespace std;
 /* Constructor */
 Parser::Parser(){
 	  hasInstr = false;
-		_isTerminated = false;
+	  _isTerminated = false;
 }
 
 vector<string> Parser::parseHelper(string insstr, char del){
@@ -24,7 +24,7 @@ vector<string> Parser::parseHelper(string insstr, char del){
 			res.push_back(insstr.substr(begin, end - begin));
 			begin = end + 1;
 		}
-			end++;
+		end++;
 	}
 
 	if(begin != end){

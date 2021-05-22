@@ -16,21 +16,22 @@ framing incoming bytes stream into http packets. Headers
 
 class Framer {
 public:
+    //向缓冲区添加数据
 	void append(std::string chars);
 
-	// Does this buffer contain at least one complete message?
+	// 缓冲区是否有数据
 	bool hasMessage() const;
 
-	// Copy the first instruction in this buffer into the provided class
+	// 获取缓冲区中的第一条指令
 	std::string topMessage() const;
 
-	// Pops off the first instruction from the buffer
+	// 从缓冲区弹出第一条指令
 	void popMessage();
 
-	// prints the string to an ostream (useful for debugging)
+	// 将字符串打印到ostream中（用于调试）
 	void printToStream(std::ostream& stream) const;
 
-	//count valid message number
+	// 计算有效的消息
 	int countMessage() const;
 
 	~Framer(){
@@ -38,7 +39,7 @@ public:
 	}
 
 protected:
-	// PUT ANY FIELDS/STATE HERE
+	// 在此处输入任何字段/状态
 	std::vector<char> _msgBuffer;
 	const char LF = '\n';
 	const char CR = '\r';
