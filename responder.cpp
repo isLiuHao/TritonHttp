@@ -95,7 +95,7 @@ int Responder::verifyReq(HttpInstruction req){
   if(req.host.size() == 0){
     return CLIENT_ERROR;
   }
-  printf(req.url);
+    cerr << "req.url" << req.url << '\n';
   /*
     Check and set if file can be accessed
   */
