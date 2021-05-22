@@ -92,7 +92,6 @@ int Responder::verifyReq(HttpInstruction req){
   /*
     verify host
   */
-  cerr << "req.host" << req.host << '\n';
   if(req.host.size() == 0){
     return CLIENT_ERROR;
   }
