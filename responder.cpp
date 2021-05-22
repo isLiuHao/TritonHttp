@@ -92,10 +92,11 @@ int Responder::verifyReq(HttpInstruction req){
   /*
     verify host
   */
+  cerr << "req.host" << req.host << '\n';
   if(req.host.size() == 0){
     return CLIENT_ERROR;
   }
-    cerr << "req.url" << req.url << '\n';
+
   /*
     Check and set if file can be accessed
   */
