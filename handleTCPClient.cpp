@@ -74,7 +74,7 @@ void HandleReq(int clntSock, string doc_root){
         while(framer.hasMessage()){
             msg = framer.topMessage();
             framer.popMessage();
-            cerr << msg << '\n';
+            cerr << "msg---------"<< msg << '\n';
             if(!parser.parse(msg)){
               /* Insert handle invalid header error response */
               cerr << "header issue" << '\n';
