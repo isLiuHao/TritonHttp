@@ -66,8 +66,7 @@ void start_httpd(unsigned short port, string doc_root)
 		cerr << "Thread" << i <<":"<< pid[i] << "is spawned \n";
 	}
 
-	cerr << "Starting server (port: " << port <<
-		", doc_root: " << doc_root << ")" << endl;
+	cerr << "Starting server (port: " << port <<", doc_root: " << doc_root << ")" << endl;
 
 	for(unsigned i = 0; i < POOL_SIZE; i++){
 		//阻塞主进程，直到线程加入
