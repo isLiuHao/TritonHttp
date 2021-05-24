@@ -36,20 +36,17 @@ class Parser {
 		bool _isTerminated;
 		vector<string> parseHelper(string insstr, char del);
 	public:
-		/*
-			Constructor, initialize private fields
-		*/
+
+		//构造函数，初始化私有字段
 		Parser();
 
 		/*
-			Parse string into valid header
-			Return: true, if string contains valid header; otherwise false
+			将字符串解析为有效的header
+			返回值：如果字符串包含有效header，则返回true；否则，返回false。否则为假
 		*/
 		bool parse(string insstr);
 
-		/*
-			Return currently parsed http headers
-		*/
+		//返回当前解析的http headers
 		HttpInstruction getReqHeader(){
 			if(!reqQ.empty()){
 				HttpInstruction res = reqQ.front();

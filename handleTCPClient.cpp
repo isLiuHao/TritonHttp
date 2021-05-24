@@ -67,7 +67,6 @@ void HandleReq(int clntSock, string doc_root){
         return;
     }
 
-
     while(numBytesRcvd > 0){
         string input(buffer, numBytesRcvd);
         framer.append(input);
